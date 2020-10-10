@@ -1,0 +1,27 @@
+Change context to ctx
+Experiment with colors/backgroundcolor
+Use context.save() before altering canvas styles, and context.restore() to revert them to the default
+Make sure slider values update on value change
+
+Check why colors differ on different browsers
+Think about if risk should be shown on tooltip (Then it needs to be increased in highlighted areas to avoid confusion. A red area can't have only yellow risk in tooltips)
+Only use one night-interval in data to avoid faulty computions? Just copy it when drawing arcs (Now the tooltips and the highlights gives faulty results)
+
+Is HIGHLIGHT_THRESHOLD necessary? HIGHLIGHTS should maybe control this alone
+since standard deviation requirement is met already
+Check highlight equations thoroughly!! Test everything
+Add a "HIGLIGHT_NEGATIVE" or something for number of intervals to lower on average above higlight limits
+
+Enable/disable developer mode with secret key press
+
+Make data class with getter/setter methods
+
+Adjustments = recommendations?
+
+Show full-day answers in all those intervals?
+
+Make grey/darkgrey hover color better (change color or not as dark)
+
+MAKE TAGINFO FOR TESTDATA OTHERWISE CRASH. Make sure all usage of tagInfo changes to test file when using test data
+
+Try to stop fetching data in render methods, instead make variables that change on click so the constant rendering updates only need to present all variables instead of fetching every frame. Also avoid heavy calculations in frame update functions
