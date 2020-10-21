@@ -164,7 +164,7 @@ function drawTime() {
   putText('Morgon', -0.5)
 
   putText('Förmiddag', 0.5)
-  putText('Eftermiddag', 1.5)
+  putText('Tidig eftermiddag', 1.5)
   putText('Sen eftermiddag', 2.5)
   putText('Tidig kväll', 3.5)
   putText('Sen kväll', 4.5)
