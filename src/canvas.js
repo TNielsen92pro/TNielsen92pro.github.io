@@ -182,6 +182,10 @@ document.addEventListener("DOMContentLoaded", function() {
         }
     }
 
+    drawBackground()
+    drawSun()
+    drawMoon()
+
     // Draw the blur effects
     // TODO: remove parameters as in arc
     for(var i = 0; i < SIZE; i++) {

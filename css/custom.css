@@ -34,6 +34,11 @@ body {
   src: url('../fonts/open-sans/OpenSans-Light.ttf');
 }
 
+.hidden {
+  display: none;
+  position: absolute;
+}
+
 #myTable {
   width: 20vw;
   font-size: 12px;

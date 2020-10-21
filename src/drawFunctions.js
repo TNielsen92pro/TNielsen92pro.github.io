@@ -81,10 +81,47 @@ function drawArc(index, hoverIndex, animate = false) {
   }
 }
 
+function drawMoon() {
+  // Code for placing moon within the circle
+  // context.drawImage(document.getElementById("moonImg"), X - 100, Y - 125 + (RADIUS / 2), 200, 250);
+  context.drawImage(document.getElementById("moonImg"), canvas.width - 250, canvas.height - 300, 200, 250);
+}
+
+function drawSun() {
+  // Code for placing sun within the circle
+  // context.drawImage(document.getElementById("sunImg"), X - 100, Y - 100 - (RADIUS / 2), 200, 200);
+  context.drawImage(document.getElementById("sunImg"), canvas.width - 250, 50, 200, 200);
+}
+
+function drawBackground() {
+  context.beginPath()
+
+  const testGradient = context.createLinearGradient(
+    0,
+    0,
+    0,
+    canvas.height
+  )
+
+  testGradient.addColorStop(0.2, '#FFE38D10')
+  testGradient.addColorStop(0.5, '#FFE38D')
+  testGradient.addColorStop(1, '#127898')
+
+
+
+  context.fillStyle = testGradient
+
+  const backgroundRadius = RADIUS * 2 - (LINEWIDTH / 2)
+  const startAngle = 0
+  const endAngle = Math.PI * 2
+  context.arc(X, Y, backgroundRadius, startAngle, endAngle, false)
+  context.fillRect(0, 0, canvas.width, canvas.height)
+}
+
 function getAngle(norm1, norm2) {
   const dot = (norm1.x * norm2.x) + (norm1.y * norm2.y)
   const angle = Math.acos(dot)
-  return (Math.PI / 2) - angle  
+  return (Math.PI / 2) - angle
 }
 
 // Put text by the end of the time interval of a certain index. Used for drawing time stamps
@@ -94,7 +131,7 @@ function putText(text, index) {
   const unitNorm = calculateUnitNormal(circleCoords.x, circleCoords.y)
   context.fillStyle = getFillstyleString(stampColor[0], stampColor[1], stampColor[2], alpha)
   // context.fillStyle = stampColor
-  context.font = `${textSize}` + 'px digital-7'
+  context.font = `${textSize}` + 'px OpenSans'
   const verticalUnit = {x: 1, y: 0}
   let turnAngle = getAngle(unitNorm, verticalUnit)
 
@@ -102,27 +139,28 @@ function putText(text, index) {
 
   const xTranslate = circleCoords.x - (context.measureText(text).width / 2) + (unitNorm.x * LINEWIDTH * 2)
   const yTranslate = circleCoords.y + (textSize / 2) + (unitNorm.y * LINEWIDTH * 2)
-/*
-  this.context.save();
-  this.context.translate(xTranslate, yTranslate);
-  this.context.rotate(turnAngle);
-  this.context.fillText(text, 0, (textSize / 2));
 
-  this.context.restore();
-*/
+
+  context.save();
+  // context.translate(xTranslate + 30, yTranslate);
+  context.translate(circleCoords.x + (unitNorm.x * 40), circleCoords.y + (unitNorm.y * 40))
+  context.rotate(turnAngle);
+  context.fillText(text, - (context.measureText(text).width / 2), (textSize / 2) - 3);
+  context.restore();
+
   // Deprecated numbers positions inside circle
-  context.fillText(text, circleCoords.x - (context.measureText(text).width / 2) - (unitNorm.x * LINEWIDTH * 2), circleCoords.y + (textSize / 2) - (unitNorm.y * LINEWIDTH * 2))
+  // context.fillText(text, circleCoords.x - (context.measureText(text).width / 2) - (unitNorm.x * LINEWIDTH * 2), circleCoords.y + (textSize / 2) - (unitNorm.y * LINEWIDTH * 2))
 }
 
 // Draw all time stamps
 function drawTime() {
-  //var text = 'God morgon!'
-  var text = '06.00'
+  var text = 'God morgon!'
+  // var text = '06.00'
   var textSize = 50
   context.fillStyle = getFillstyleString(stampColor[0], stampColor[1], stampColor[2], alpha)
-  context.font = `${textSize}` + 'px digital-7'
+  context.font = `${textSize}` + 'px OpenSans'
   context.fillText(text, X + RADIUS * Math.sin(-Math.PI/2 + ROTATION * Math.PI) - context.measureText(text).width / 2, Y + RADIUS * Math.cos(Math.PI/2 + ROTATION * Math.PI) + textSize / 2)
-  /* // Swedish
+  // Swedish
   putText('Morgon', -0.5)
 
   putText('Förmiddag', 0.5)
@@ -132,7 +170,7 @@ function drawTime() {
   putText('Sen kväll', 4.5)
   putText('Natt', 5.5)
   putText('Natt', 6.5)
-  */
+  
   /* // English
   putText('Morning', -0.5)
   putText('Early lunch', 0.5)
@@ -144,7 +182,7 @@ function drawTime() {
   putText('Night', 6.5)
   */
 
-
+  /*
   var time = 6
   for(var i = 0; i < SIZE; i++) {
     time = (time + Math.floor(24/SIZE)) % 24
@@ -156,7 +194,7 @@ function drawTime() {
         putText(time + '.00', i)
     }
   }
-
+  */
   if(alpha < 1) alpha += 0.8 / fps
 }
 
