@@ -81,6 +81,12 @@ function drawArc(index, hoverIndex, animate = false) {
   }
 }
 
+function getAngle(norm1, norm2) {
+  const dot = (norm1.x * norm2.x) + (norm1.y * norm2.y)
+  const angle = Math.acos(dot)
+  return (Math.PI / 2) - angle  
+}
+
 // Put text by the end of the time interval of a certain index. Used for drawing time stamps
 function putText(text, index) {
   textSize = 20
@@ -89,27 +95,68 @@ function putText(text, index) {
   context.fillStyle = getFillstyleString(stampColor[0], stampColor[1], stampColor[2], alpha)
   // context.fillStyle = stampColor
   context.font = `${textSize}` + 'px digital-7'
+  const verticalUnit = {x: 1, y: 0}
+  let turnAngle = getAngle(unitNorm, verticalUnit)
+
+  if(index > 3) turnAngle = -turnAngle
+
+  const xTranslate = circleCoords.x - (context.measureText(text).width / 2) + (unitNorm.x * LINEWIDTH * 2)
+  const yTranslate = circleCoords.y + (textSize / 2) + (unitNorm.y * LINEWIDTH * 2)
+/*
+  this.context.save();
+  this.context.translate(xTranslate, yTranslate);
+  this.context.rotate(turnAngle);
+  this.context.fillText(text, 0, (textSize / 2));
+
+  this.context.restore();
+*/
+  // Deprecated numbers positions inside circle
   context.fillText(text, circleCoords.x - (context.measureText(text).width / 2) - (unitNorm.x * LINEWIDTH * 2), circleCoords.y + (textSize / 2) - (unitNorm.y * LINEWIDTH * 2))
 }
 
 // Draw all time stamps
 function drawTime() {
+  //var text = 'God morgon!'
   var text = '06.00'
   var textSize = 50
   context.fillStyle = getFillstyleString(stampColor[0], stampColor[1], stampColor[2], alpha)
   context.font = `${textSize}` + 'px digital-7'
   context.fillText(text, X + RADIUS * Math.sin(-Math.PI/2 + ROTATION * Math.PI) - context.measureText(text).width / 2, Y + RADIUS * Math.cos(Math.PI/2 + ROTATION * Math.PI) + textSize / 2)
-  
+  /* // Swedish
+  putText('Morgon', -0.5)
+
+  putText('Förmiddag', 0.5)
+  putText('Eftermiddag', 1.5)
+  putText('Sen eftermiddag', 2.5)
+  putText('Tidig kväll', 3.5)
+  putText('Sen kväll', 4.5)
+  putText('Natt', 5.5)
+  putText('Natt', 6.5)
+  */
+  /* // English
+  putText('Morning', -0.5)
+  putText('Early lunch', 0.5)
+  putText('Early Afternoon', 1.5)
+  putText('Late Afternoon', 2.5)
+  putText('Early evening', 3.5)
+  putText('Late evening', 4.5)
+  putText('Night', 5.5)
+  putText('Night', 6.5)
+  */
+
+
   var time = 6
   for(var i = 0; i < SIZE; i++) {
     time = (time + Math.floor(24/SIZE)) % 24
     if(time === 6) continue // 06.00 is rendered above
     if(time < 10) {
         putText('0' + time + '.00', i)
+
     } else {
         putText(time + '.00', i)
     }
   }
+
   if(alpha < 1) alpha += 0.8 / fps
 }
 

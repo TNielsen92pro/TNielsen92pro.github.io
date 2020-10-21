@@ -41,7 +41,7 @@ const tooltipHoverFill = ['220', '220', '220'] // Color of tooltip background on
 const tooltipTextSize = 17
 const intervals = []
 const warmupRounds = 100
-const startAnimationTime = 1.5
+const startAnimationTime = 1
 
 // Main canvas rendering variables
 var initializing = true
