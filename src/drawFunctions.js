@@ -93,6 +93,49 @@ function drawSun() {
   context.drawImage(document.getElementById("sunImg"), canvas.width - 250, 50, 200, 200);
 }
 
+function drawArrow() {
+  context.strokeStyle = 'rgba(0, 0, 0)'
+  context.lineWidth = 7
+
+  context.beginPath()
+  context.arc(X, Y, RADIUS - (LINEWIDTH * 1.2), getArcAngle(0) - 0.001, getArcAngle(0.5) + 0.001)
+  context.stroke()
+
+
+  context.save();
+  context.fillStyle = context.strokeStyle
+  const triangleCoords = {
+    A: {
+      x: getCircleSectionCoords(0.5).x + 20,
+      y: getCircleSectionCoords(0.5).y + 20
+    },
+    B: {
+      x: getCircleSectionCoords(0.5).x + 45,
+      y: getCircleSectionCoords(0.5).y + 35
+    },
+    C: {
+      x: getCircleSectionCoords(0.5).x + 45,
+      y: getCircleSectionCoords(0.5).y + 5
+    }
+  }
+
+  const triangleCenterCoords = {
+    x: (triangleCoords.A.x + triangleCoords.B.x + triangleCoords.C.x) / 3,
+    y: (triangleCoords.A.y + triangleCoords.B.y + triangleCoords.C.y) / 3,
+  }
+
+  // Calculations made by hand because of stress
+  context.translate(triangleCenterCoords.x - 3, triangleCenterCoords.y - 3)
+  context.rotate(130 * Math.PI / 180);
+  context.beginPath()
+  context.moveTo(-50 / 3, 0)
+  context.lineTo(25 / 3, 15)
+  context.lineTo(25 / 3, -15)
+  context.fill()
+  context.restore();
+
+}
+
 function drawBackground() {
   context.beginPath()
 
@@ -142,7 +185,6 @@ function putText(text, index) {
 
 
   context.save();
-  // context.translate(xTranslate + 30, yTranslate);
   context.translate(circleCoords.x + (unitNorm.x * 40), circleCoords.y + (unitNorm.y * 40))
   context.rotate(turnAngle);
   context.fillText(text, - (context.measureText(text).width / 2), (textSize / 2) - 3);
@@ -197,7 +239,6 @@ function drawTime() {
   */
   if(alpha < 1) alpha += 0.8 / fps
 }
-
 
 function drawAnimatedLine(fromX, fromY, toX, toY, time, totX = null, totY = null) {
   let xDirection = 1;

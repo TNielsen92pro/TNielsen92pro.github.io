@@ -199,6 +199,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
     // Draw timestamps
     drawTime();
+    drawArrow();
 
     if(showTooltip) {
       drawTooltip(clickIndex)
